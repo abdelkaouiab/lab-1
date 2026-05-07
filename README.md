@@ -2,18 +2,24 @@
 
 ## Overview
 
-This section documents the deployment and network configuration of the Mobexler virtual machine using Oracle VirtualBox.  
-The objective was to configure Internet connectivity while also enabling communication between the host machine and the guest virtual machine through a Host-Only network.
+This section documents the deployment and network configuration of the Mobexler virtual machine using Oracle VirtualBox.
+
+The objective was to:
+- configure Internet connectivity using NAT
+- enable communication between the host and guest machine using a Host-Only adapter
+- verify routing and network access
+- create a clean baseline snapshot
+- validate the integrity of the imported OVA image
 
 ---
 
 # Step 1 — Launching the Mobexler Virtual Machine
 
-The Mobexler virtual machine was successfully started inside Oracle VirtualBox.
+The Mobexler virtual machine was successfully launched inside Oracle VirtualBox.
 
 The operating system booted correctly and the desktop environment became accessible.
 
-![Step 1](images/1.png)
+![Step 1](images/1.jpeg)
 
 ---
 
@@ -29,7 +35,7 @@ Configuration details:
 - Adapter type: Intel PRO/1000 MT Server
 - Virtual cable connected enabled
 
-![Step 2](images/2.png)
+![Step 2](images/2.jpeg)
 
 ---
 
@@ -46,13 +52,13 @@ Configuration details:
 - Attached to: Host-only Adapter
 - VirtualBox Host-Only Ethernet Adapter selected
 
-![Step 3](images/3.png)
+![Step 3](images/3.jpeg)
 
 ---
 
-# Step 4 — Verifying Network Interfaces Inside Mobexler
+# Step 4 — Verifying Network Interfaces
 
-The command below was executed:
+The following command was executed:
 
 ```bash
 ip a
@@ -67,35 +73,35 @@ The output confirmed the presence of two network interfaces:
 - `enp0s17`
   - NAT network
 
-This verifies that both adapters were detected successfully by the Linux system.
+This confirms that both adapters were correctly detected by the Linux system.
 
-![Step 4](images/4.png)
+![Step 4](images/4.jpeg)
 
 ---
 
 # Step 5 — Verifying Routing Configuration
 
-The routing table was checked using:
+The routing table was displayed using:
 
 ```bash
 ip route
 ```
 
-The output showed:
-- default gateway through the NAT interface
-- local Host-Only subnet route
+The result showed:
+- a default gateway through the NAT interface
+- a local route for the Host-Only network
 
 Important routes:
 - `default via 10.0.2.2 dev enp0s17`
 - `192.168.56.0/24 dev enp0s8`
 
-This confirms that Internet traffic uses the NAT adapter while Host-Only communication remains local.
+This confirms proper routing configuration.
 
-![Step 5](images/5.png)
+![Step 5](images/5.jpeg)
 
 ---
 
-# Step 6 — Testing Network Connectivity
+# Step 6 — Testing Internet Connectivity
 
 Connectivity tests were performed using the `ping` command.
 
@@ -106,8 +112,8 @@ ping -c 2 8.8.8.8
 ```
 
 Result:
-- Successful replies received
-- Confirms Internet access
+- successful replies received
+- confirms Internet connectivity
 
 ## Test 2 — DNS Resolution
 
@@ -116,26 +122,26 @@ ping -c 2 google.com
 ```
 
 Result:
-- Successful replies received
-- Confirms DNS resolution is working correctly
+- successful replies received
+- confirms DNS resolution is functioning correctly
 
-![Step 6](images/6.png)
+![Step 6](images/6.jpeg)
 
 ---
 
-# Step 7 — Virtual Machine Snapshot Verification
+# Step 7 — Snapshot Verification
 
-A snapshot named:
+A VirtualBox snapshot named:
 
 ```text
 CLEAN_BASELINE_TP1
 ```
 
-was created and verified inside VirtualBox.
+was successfully created.
 
-This snapshot allows restoring the VM to a clean baseline state before future experiments or security testing activities.
+This snapshot allows restoring the environment to a clean baseline state before future testing or experimentation.
 
-![Step 7](images/7.png)
+![Step 7](images/7.jpeg)
 
 ---
 
@@ -149,11 +155,11 @@ Get-FileHash C:\Users\abdelkaoui\Downloads\Mobexler.ova -Algorithm SHA256
 
 Purpose:
 - verify file integrity
-- ensure the imported virtual appliance was not corrupted or modified
+- ensure the appliance was not corrupted or modified before use
 
-This is an important verification step in security and forensic environments.
+This is an important verification step in forensic and cybersecurity environments.
 
-![Step 8](images/8.png)
+![Step 8](images/8.jpeg)
 
 ---
 
@@ -162,9 +168,9 @@ This is an important verification step in security and forensic environments.
 The Mobexler virtual machine was successfully configured with:
 - Internet access through NAT
 - Host-to-guest communication through Host-Only networking
-- verified routing and DNS functionality
-- validated connectivity tests
+- verified routing configuration
+- successful connectivity tests
 - snapshot baseline creation
 - SHA256 integrity verification
 
-The environment is now ready for networking, cybersecurity, or forensic laboratory activities.
+The environment is now ready for networking, cybersecurity, and forensic laboratory activities.
